@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rig Monitor">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0a0c10">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAFlElEQVR4nO3cS64cRRBG4TTyCDEAyUKITXgRDJixE5bgVbATZgxYhrdgIcsSW2AQKFXq7ijXIzPjj8zzze7VHVRVn47MW/148+133xfglW+iDwC6iAMu4oCLOOAiDriIAy7igIs44CIOuIgDLuKAizjgIg64iAMu4oCLOOAiDriIAy7igIs44CIOuIgDLuKAizjgIg64iAMu4oDrbfQBhHn348/Pv3z/4ePLP/779x86H46iVeJ4mcJxv/zx78NvVshl5jhuBrFvm8usoUwYR9cmXqqhTFbJPHGMb+LZZJXMEIdCFg+skuyJ5I5DMIut7IlkjUM8i628ieSLI1EWWxkTSXaHNGkZ1fP9EmVpJkf2LKpEIyTH5JimjCrFCFGfHPNlUemPEOnJMXEZlfII0Y1jhTKMbB+Ky8o6WVSaS8wbte8+H1nGl8+fjvzZyGe2VB9acfQu42AN+3q3otOHUBydymgShKdTKCJ9qMTRo4yuWWz1SEShD4k42pYxrIlnbSsJ7yM+joZlBGax1TCR2D5073OcJVJGiX5EGwqeHE3Ghk4WD5qMkMDUIifH3GWURo9r4P3TsMlxvwzlLB7cf4BD5kfWPUeiMkraXUhMHDfHRq4yzM0+QhaXgDgWLMOk6yPZspK3DJNrfRkdx52xkb0Mc6ePwcNjaByUYbL0kWNZmakMk2J9GRfH5bExXxnmch/Dhof65Ji1DCM+PwbFseDbQrsaMzykJ8fcY8MoD48RcVwbGyuUYa71MWB4SE8OxOoeB2PjCM3hoTg5VivDCG4+FOOAiL5xXFhT1hwb5sLw6LqyMDngIg64OsbBmnKB1MrC5IBLKA7GhtH5n1YoDqjpFQcvw47UadvB5IBLJQ42HFsi2w6VOCBI8dsEQ/z012/bH//59c+oI9FBHI9ZbH+5eCJdPmWf5d7oyyyehSRy4R+Q5jsViT2Hchmn/rIhhT2pRBzQtGgcZ4dByPAIt2gcOGLFOK6NgQWHx4px4CDigIs44CIOuFaM49odzwVvpa8YBw5aNI6zY2DBsVGWjQNHSMQR8obT48Mgy6uyzXV5P8eXz59SvMHYHvWdW5+JVpMer+LyZp/XiSTKoh/i+B81PJPYc0CTShwp9ijDKOxGi04cENQrDj6kNFKnN5wyOeASioNthxHZcBSpOKCmYxwXth0MD4XPMlVMDriIA66+cbCynCK1phQmB3YoxrHm8ND5D7bqHse1W6Wr9XGtjN6fxFecHBAxIg6Gxz7NsVHEJ8cKfQhuNapBcfAibVtjvvdHenKU2YeH8tgoI+O4PDzEr+Bll89r2NeFqU+O9x8+lhn7SHFGQ+M4OzysDJPiah5051xGfstgl+8h3XdkG7HNYkvhCxhvylJG0VxWvDJK/vmR6/gD4thfXHbKMLmu79bNIx8/NWMmh9fHV8swGftIV0aRWlYOlmFy9ZHraKuADWlVd6ansnggvkVtkkXUOUZODltc7pRRtJ+UqcsosZPDtHp0pUbIHCcltOe4SWeE6BzJTfGTo7S+moHPtmlOxEjEUfo824Zd3NQHv0MljtJtGne9yhmP+TihOEr/1brJRU9xkE1oxVHG7uYOPgyChzSGXBxlot3+WVJlFM04zFKJqGVhdO9zaF6vHmTPVDeOInzVGlI+R91lZWvKJUY5CyM9OSr963hWijPKMTmqCUZIiixMjslRJbqyL+U6/mSTo0o3QnJlYbLGYVIkkjELkzsOI5tI3izMDHEYqUSyZ2HmiaMKrGSOJqoJ46iGVTJZE9XMcWw1D2XWILZWiePZqVxWSOHZunHgq5LdIcVIxAEXccBFHHARB1zEARdxwEUccBEHXMQBF3HARRxwEQdcxAEXccBFHHARB1zEARdxwEUccBEHXMQBF3HARRxwEQdcxAHXf/U2xwqYpV4DAAAAAElFTkSuQmCC">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAFlElEQVR4nO3cS64cRRBG4TTyCDEAyUKITXgRDJixE5bgVbATZgxYhrdgIcsSW2AQKFXq7ijXIzPjj8zzze7VHVRVn47MW/148+133xfglW+iDwC6iAMu4oCLOOAiDriIAy7igIs44CIOuIgDLuKAizjgIg64iAMu4oCLOOAiDriIAy7igIs44CIOuIgDLuKAizjgIg64iAMu4oDrbfQBhHn348/Pv3z/4ePLP/779x86H46iVeJ4mcJxv/zx78NvVshl5jhuBrFvm8usoUwYR9cmXqqhTFbJPHGMb+LZZJXMEIdCFg+skuyJ5I5DMIut7IlkjUM8i628ieSLI1EWWxkTSXaHNGkZ1fP9EmVpJkf2LKpEIyTH5JimjCrFCFGfHPNlUemPEOnJMXEZlfII0Y1jhTKMbB+Ky8o6WVSaS8wbte8+H1nGl8+fjvzZyGe2VB9acfQu42AN+3q3otOHUBydymgShKdTKCJ9qMTRo4yuWWz1SEShD4k42pYxrIlnbSsJ7yM+joZlBGax1TCR2D5073OcJVJGiX5EGwqeHE3Ghk4WD5qMkMDUIifH3GWURo9r4P3TsMlxvwzlLB7cf4BD5kfWPUeiMkraXUhMHDfHRq4yzM0+QhaXgDgWLMOk6yPZspK3DJNrfRkdx52xkb0Mc6ePwcNjaByUYbL0kWNZmakMk2J9GRfH5bExXxnmch/Dhof65Ji1DCM+PwbFseDbQrsaMzykJ8fcY8MoD48RcVwbGyuUYa71MWB4SE8OxOoeB2PjCM3hoTg5VivDCG4+FOOAiL5xXFhT1hwb5sLw6LqyMDngIg64OsbBmnKB1MrC5IBLKA7GhtH5n1YoDqjpFQcvw47UadvB5IBLJQ42HFsi2w6VOCBI8dsEQ/z012/bH//59c+oI9FBHI9ZbH+5eCJdPmWf5d7oyyyehSRy4R+Q5jsViT2Hchmn/rIhhT2pRBzQtGgcZ4dByPAIt2gcOGLFOK6NgQWHx4px4CDigIs44CIOuFaM49odzwVvpa8YBw5aNI6zY2DBsVGWjQNHSMQR8obT48Mgy6uyzXV5P8eXz59SvMHYHvWdW5+JVpMer+LyZp/XiSTKoh/i+B81PJPYc0CTShwp9ijDKOxGi04cENQrDj6kNFKnN5wyOeASioNthxHZcBSpOKCmYxwXth0MD4XPMlVMDriIA66+cbCynCK1phQmB3YoxrHm8ND5D7bqHse1W6Wr9XGtjN6fxFecHBAxIg6Gxz7NsVHEJ8cKfQhuNapBcfAibVtjvvdHenKU2YeH8tgoI+O4PDzEr+Bll89r2NeFqU+O9x8+lhn7SHFGQ+M4OzysDJPiah5051xGfstgl+8h3XdkG7HNYkvhCxhvylJG0VxWvDJK/vmR6/gD4thfXHbKMLmu79bNIx8/NWMmh9fHV8swGftIV0aRWlYOlmFy9ZHraKuADWlVd6ansnggvkVtkkXUOUZODltc7pRRtJ+UqcsosZPDtHp0pUbIHCcltOe4SWeE6BzJTfGTo7S+moHPtmlOxEjEUfo824Zd3NQHv0MljtJtGne9yhmP+TihOEr/1brJRU9xkE1oxVHG7uYOPgyChzSGXBxlot3+WVJlFM04zFKJqGVhdO9zaF6vHmTPVDeOInzVGlI+R91lZWvKJUY5CyM9OSr963hWijPKMTmqCUZIiixMjslRJbqyL+U6/mSTo0o3QnJlYbLGYVIkkjELkzsOI5tI3izMDHEYqUSyZ2HmiaMKrGSOJqoJ46iGVTJZE9XMcWw1D2XWILZWiePZqVxWSOHZunHgq5LdIcVIxAEXccBFHHARB1zEARdxwEUccBEHXMQBF3HARRxwEQdcxAEXccBFHHARB1zEARdxwEUccBEHXMQBF3HARRxwEQdcxAHXf/U2xwqYpV4DAAAAAElFTkSuQmCC">
+<title>Rig Monitor</title>
+<style>
+  :root{
+    --bg:#0a0c10;
+    --card:#12151b;
+    --card-border:rgba(255,255,255,0.07);
+    --text:#e9ebee;
+    --text-dim:#8b93a1;
+    --text-faint:#5b6270;
+    --track:rgba(255,255,255,0.09);
+    --blue:#4d9fff;
+    --green:#22c55e;
+    --amber:#f5a524;
+    --red:#ef4444;
+    --radius:18px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{
+    max-width:1400px; margin:0 auto; padding:28px 28px 40px;
+    min-height:100vh; min-height:-webkit-fill-available;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:6px 4px 26px;
+  }
+  .topbar h1{ font-size:28px; font-weight:600; margin:0; letter-spacing:-0.3px; }
+  .topbar .sub{ font-size:15px; color:var(--text-faint); margin-top:4px; }
+  .top-right{ display:flex; align-items:center; gap:16px; }
+  .conn{ display:flex; align-items:center; gap:7px; font-size:14px; color:var(--text-dim); }
+  .conn .dot{ width:9px; height:9px; border-radius:50%; background:var(--text-faint); }
+  .conn.ok .dot{ background:var(--green); box-shadow:0 0 8px var(--green); }
+  .conn.bad .dot{ background:var(--red); box-shadow:0 0 8px var(--red); }
+  .clock-panel{
+    background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
+    display:flex; align-items:center; justify-content:center; padding:16px;
+  }
+  .clock-big{
+    font-family:"SF Mono","Menlo",monospace; font-size:26px; font-weight:700;
+    color:var(--text); letter-spacing:1px; font-variant-numeric:tabular-nums;
+  }
+  .gear{
+    width:46px; height:46px; border-radius:13px; background:var(--card);
+    border:1px solid var(--card-border); display:flex; align-items:center; justify-content:center;
+    color:var(--text-dim);
+  }
+  .gear svg{ width:22px; height:22px; }
+
+  .grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
+    grid-template-rows:auto auto auto;
+    grid-template-areas:
+      "cpu clock storage"
+      "cpu ram storage"
+      "gpu net net";
+  }
+  #cpuCard{ grid-area:cpu; }
+  #clockCard{ grid-area:clock; }
+  #ramCard{ grid-area:ram; }
+  #storageCard{ grid-area:storage; }
+  #gpuCard{ grid-area:gpu; }
+  #netCard{ grid-area:net; }
+  .card{
+    background:var(--card); border:1px solid var(--card-border);
+    border-radius:var(--radius); padding:26px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    min-height:230px; cursor:pointer; transition:background .15s ease, transform .1s ease;
+  }
+  .card:active{ background:#171b23; transform:scale(0.99); }
+  .card.span2{ grid-column:span 2; }
+
+  .detail-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:12px 0; border-bottom:1px solid var(--card-border);
+    font-size:15px; color:var(--text-dim);
+  }
+  .detail-row:last-child{ border-bottom:none; }
+  .detail-row b{ color:var(--text); font-weight:600; }
+  .detail-sub{
+    font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;
+    color:var(--text-faint); margin:18px 0 4px;
+  }
+  .detail-sub:first-child{ margin-top:0; }
+  .detail-body{ max-height:52vh; overflow-y:auto; }
+
+  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .card-title{ font-size:21px; font-weight:600; }
+  .card-model{ font-size:14px; color:var(--text-faint); margin-top:5px; line-height:1.35; max-width:190px; }
+  .status-row{ display:flex; align-items:center; gap:8px; margin-top:16px; }
+  .status-dot{ width:10px; height:10px; border-radius:50%; background:var(--green); }
+  .status-dot.warn{ background:var(--amber); box-shadow:0 0 8px var(--amber); }
+  .status-dot.crit{ background:var(--red); box-shadow:0 0 8px var(--red); }
+  .status-dot.ok{ box-shadow:0 0 8px var(--green); }
+  .status-dot.off{ background:var(--text-faint); box-shadow:none; }
+  .status-text{ font-size:16px; font-weight:600; color:var(--text-dim); }
+
+  .gauge-wrap{ position:relative; width:112px; height:112px; flex-shrink:0; }
+  .gauge-wrap svg{ width:100%; height:100%; transform:rotate(-90deg); }
+  .gauge-track{ fill:none; stroke:var(--track); stroke-width:8; }
+  .gauge-fill{ fill:none; stroke:var(--blue); stroke-width:8; stroke-linecap:round; transition:stroke-dashoffset .4s ease; }
+  .gauge-fill.warn{ stroke:var(--amber); }
+  .gauge-fill.crit{ stroke:var(--red); }
+  .gauge-center{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+  }
+  .gauge-val{ font-size:25px; font-weight:700; letter-spacing:-0.3px; }
+  .gauge-unit{ font-size:12px; color:var(--text-faint); margin-top:-2px; }
+
+  .util-block{ margin-top:22px; }
+  .util-label{ display:flex; justify-content:space-between; font-size:15px; color:var(--text-dim); margin-bottom:10px; }
+  .util-label b{ color:var(--text); font-weight:700; }
+  .bar{ height:9px; border-radius:5px; background:var(--track); overflow:hidden; }
+  .bar-fill{ height:100%; border-radius:5px; background:linear-gradient(90deg,#4d9fff,#7cc7ff); transition:width .4s ease; }
+  .bar-fill.warn{ background:linear-gradient(90deg,#f5a524,#ffcf7a); }
+  .bar-fill.crit{ background:linear-gradient(90deg,#ef4444,#ff8a8a); }
+
+  .drive-row{ margin-top:18px; }
+  .drive-row:first-of-type{ margin-top:20px; }
+  .drive-head{ display:flex; justify-content:space-between; font-size:15px; color:var(--text-dim); margin-bottom:8px; }
+  .drive-head span.name{ color:var(--text-dim); font-weight:400; }
+
+  /* Network card */
+  .net-top{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .net-speeds{ display:flex; gap:22px; }
+  .net-speed{ text-align:right; }
+  .net-speed .val{ font-size:20px; font-weight:700; }
+  .net-speed .lbl{ font-size:12px; color:var(--text-faint); display:flex; align-items:center; gap:4px; justify-content:flex-end; margin-top:2px; }
+  .net-chart{ margin-top:18px; height:120px; }
+  .net-chart svg{ width:100%; height:100%; display:block; }
+
+  /* Settings modal */
+  .modal-bg{
+    position:fixed; inset:0; background:rgba(0,0,0,0.6);
+    display:none; align-items:center; justify-content:center; z-index:50;
+    padding:24px;
+  }
+  .modal-bg.show{ display:flex; }
+  .modal{
+    width:100%; max-width:560px; background:#161a21; border-radius:22px;
+    padding:32px 32px 30px; border:1px solid var(--card-border);
+    max-height:calc(100% - 24px); overflow-y:auto;
+  }
+  .modal h2{ font-size:22px; margin:0 0 22px; }
+  .field{ margin-bottom:22px; }
+  .field label{ display:block; font-size:14px; color:var(--text-dim); margin-bottom:9px; }
+  .field input{
+    width:100%; background:#0d0f14; border:1px solid var(--card-border); color:var(--text);
+    padding:16px 16px; border-radius:12px; font-size:18px;
+  }
+  .field .hint{ font-size:13px; color:var(--text-faint); margin-top:9px; line-height:1.5; }
+  .rate-row{ display:flex; gap:12px; }
+  .rate-btn{
+    flex:1; padding:16px 0; text-align:center; border-radius:12px; border:1px solid var(--card-border);
+    color:var(--text-dim); font-size:16px; background:#0d0f14;
+  }
+  .rate-btn.active{ background:var(--blue); color:#fff; border-color:var(--blue); }
+  .modal-actions{ display:flex; gap:14px; margin-top:28px; }
+  .btn{
+    flex:1; padding:17px 0; border-radius:13px; text-align:center; font-size:17px; font-weight:600;
+    border:1px solid var(--card-border); color:var(--text-dim);
+  }
+  .btn.primary{ background:var(--blue); color:#fff; border-color:var(--blue); }
+  .err-msg{ font-size:13px; color:var(--red); margin-top:10px; min-height:16px; }
+
+  @media (max-width:680px){
+    .grid{
+      grid-template-columns:1fr 1fr;
+      grid-template-areas:
+        "cpu clock"
+        "cpu ram"
+        "storage storage"
+        "gpu gpu"
+        "net net";
+    }
+    .card.span2{ grid-column:span 2; }
+    .modal{ max-width:440px; padding:26px 24px 24px; }
+    .modal h2{ font-size:19px; }
+  }
+  @media (max-width:460px){
+    .grid{
+      grid-template-columns:1fr;
+      grid-template-areas:
+        "clock"
+        "cpu"
+        "ram"
+        "storage"
+        "gpu"
+        "net";
+    }
+    .card.span2{ grid-column:span 1; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <h1>Rig Monitor</h1>
+      <div class="sub" id="hostSub">Not configured</div>
+    </div>
+    <div class="top-right">
+      <div class="conn" id="connIndicator"><span class="dot"></span><span id="connLabel">—</span></div>
+      <div class="gear" id="openSettings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 005.6 15a1.65 1.65 0 00-1.51-1H4a2 2 0 110-4h.09A1.65 1.65 0 005.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.2.63.79 1.05 1.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- Processor -->
+    <div class="card" id="cpuCard">
+      <div class="card-top">
+        <div>
+          <div class="card-title">Processor</div>
+          <div class="card-model" id="cpuModel">—</div>
+        </div>
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 76 76">
+            <circle class="gauge-track" cx="38" cy="38" r="32"></circle>
+            <circle class="gauge-fill" id="cpuGaugeFill" cx="38" cy="38" r="32"></circle>
+          </svg>
+          <div class="gauge-center"><div class="gauge-val" id="cpuTempVal">--°</div><div class="gauge-unit">Celsius</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="status-row"><div class="status-dot" id="cpuDot"></div><div class="status-text" id="cpuStatus">—</div></div>
+        <div class="util-block">
+          <div class="util-label"><span>Utilization</span><b id="cpuUtilVal">--%</b></div>
+          <div class="bar"><div class="bar-fill" id="cpuUtilBar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clock -->
+    <div class="clock-panel" id="clockCard">
+      <div class="clock-big" id="clockDisplay">--:--:--</div>
+    </div>
+
+    <!-- RAM -->
+    <div class="card" id="ramCard">
+      <div class="card-top">
+        <div>
+          <div class="card-title">RAM</div>
+          <div class="card-model" id="ramModel">—</div>
+        </div>
+      </div>
+      <div>
+        <div class="status-row"><div class="status-dot" id="ramDot"></div><div class="status-text" id="ramStatus">—</div></div>
+        <div class="util-block">
+          <div class="util-label"><span>Utilization</span><b id="ramUtilVal">--%</b></div>
+          <div class="bar"><div class="bar-fill" id="ramUtilBar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Storage -->
+    <div class="card" id="storageCard">
+      <div class="card-top">
+        <div>
+          <div class="card-title">Storage</div>
+          <div class="card-model" id="storageModel">—</div>
+        </div>
+      </div>
+      <div>
+        <div class="status-row"><div class="status-dot" id="storageDot"></div><div class="status-text" id="storageStatus">—</div></div>
+        <div class="drive-row">
+          <div class="drive-head"><span class="name" id="drive0Name">Drive 1</span><span id="drive0Pct">--%</span></div>
+          <div class="bar"><div class="bar-fill" id="drive0Bar" style="width:0%"></div></div>
+        </div>
+        <div class="drive-row">
+          <div class="drive-head"><span class="name" id="drive1Name">Drive 2</span><span id="drive1Pct">--%</span></div>
+          <div class="bar"><div class="bar-fill" id="drive1Bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Card -->
+    <div class="card" id="gpuCard">
+      <div class="card-top">
+        <div>
+          <div class="card-title">Graphics Card</div>
+          <div class="card-model" id="gpuModel">—</div>
+        </div>
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 76 76">
+            <circle class="gauge-track" cx="38" cy="38" r="32"></circle>
+            <circle class="gauge-fill" id="gpuGaugeFill" cx="38" cy="38" r="32"></circle>
+          </svg>
+          <div class="gauge-center"><div class="gauge-val" id="gpuTempVal">--°</div><div class="gauge-unit">Celsius</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="status-row"><div class="status-dot" id="gpuDot"></div><div class="status-text" id="gpuStatus">—</div></div>
+        <div class="util-block">
+          <div class="util-label"><span>Utilization</span><b id="gpuUtilVal">--%</b></div>
+          <div class="bar"><div class="bar-fill" id="gpuUtilBar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Network -->
+    <div class="card span2" id="netCard">
+      <div class="net-top">
+        <div>
+          <div class="card-title">Network</div>
+          <div class="card-model" id="netModel">—</div>
+          <div class="status-row"><div class="status-dot" id="netDot"></div><div class="status-text" id="netStatus">—</div></div>
+        </div>
+        <div class="net-speeds">
+          <div class="net-speed">
+            <div class="val" id="netUp">-- </div>
+            <div class="lbl">&#8593; upload</div>
+          </div>
+          <div class="net-speed">
+            <div class="val" id="netDown">-- </div>
+            <div class="lbl">&#8595; download</div>
+          </div>
+        </div>
+      </div>
+      <div class="net-chart"><svg id="netChartSvg" viewBox="0 0 300 64" preserveAspectRatio="none"></svg></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Settings -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>Connection settings</h2>
+    <div class="field">
+      <label>Libre Hardware Monitor server</label>
+      <input id="hostInput" type="text" placeholder="192.168.1.50:8085" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <div class="hint">Enter your PC's IP and the web server port shown in LHM (Options &rarr; Web Server). No need to include http:// or /data.json.</div>
+    </div>
+    <div class="field">
+      <label>Refresh rate</label>
+      <div class="rate-row">
+        <div class="rate-btn" data-rate="1000">1s</div>
+        <div class="rate-btn" data-rate="2000">2s</div>
+        <div class="rate-btn" data-rate="5000">5s</div>
+      </div>
+    </div>
+    <div class="err-msg" id="modalErr"></div>
+    <div class="modal-actions">
+      <div class="btn" id="cancelSettings">Close</div>
+      <div class="btn primary" id="saveSettings">Save</div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail -->
+<div class="modal-bg" id="detailBg">
+  <div class="modal">
+    <h2 id="detailTitle">—</h2>
+    <div class="detail-body" id="detailBody"></div>
+    <div class="modal-actions">
+      <div class="btn primary" id="closeDetail">Close</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var CONFIG_KEY = "lhm_dashboard_config_v1";
+  var config = { host:"", rate:2000 };
+  try{
+    var saved = JSON.parse(localStorage.getItem(CONFIG_KEY));
+    if(saved && saved.host !== undefined){ config = saved; }
+  }catch(e){}
+
+  var pollTimer = null;
+  var netHistory = []; // array of {up, down}
+  var lastNetKey = null;
+  var clockTimer = null;
+  var lastMap = null;
+  var lastNetName = null;
+
+  function pad2(n){ return (n < 10 ? "0" : "") + n; }
+
+  function tickClock(){
+    var d = new Date();
+    $("clockDisplay").textContent = pad2(d.getHours()) + ":" + pad2(d.getMinutes()) + ":" + pad2(d.getSeconds());
+  }
+
+  function startClock(){
+    if(clockTimer) return;
+    tickClock();
+    clockTimer = setInterval(tickClock, 1000);
+  }
+
+  // ---------- sensor paths specific to this rig ----------
+  var PATHS = {
+    cpuTemp:  "/amdcpu/0/temperature/2",   // Core (Tctl/Tdie)
+    cpuLoad:  "/amdcpu/0/load/0",          // CPU Total
+    ramLoad:  "/ram/load/0",
+    ramUsed:  "/ram/data/0",
+    ramAvail: "/ram/data/1",
+    gpuTemp:  "/gpu-amd/0/temperature/0",  // GPU Core
+    gpuLoad:  "/gpu-amd/0/load/0",         // GPU Core load
+    drive0Used: "/nvme/0/load/30",
+    drive0Temp: "/nvme/0/temperature/0",
+    drive0Free: "/nvme/0/data/31",
+    drive0Total: "/nvme/0/data/32",
+    drive1Used: "/nvme/1/load/30",
+    drive1Temp: "/nvme/1/temperature/0",
+    drive1Free: "/nvme/1/data/31",
+    drive1Total: "/nvme/1/data/32"
+  };
+
+  // ---------- helpers ----------
+  function $(id){ return document.getElementById(id); }
+
+  function valOf(map, path){
+    return (map[path] && map[path].Value) ? map[path].Value : "—";
+  }
+
+  function detailRow(label, value){
+    return '<div class="detail-row"><span>' + label + '</span><b>' + value + '</b></div>';
+  }
+
+  function detailSub(label){
+    return '<div class="detail-sub">' + label + '</div>';
+  }
+
+  function parseNum(str){
+    if(str === null || str === undefined) return null;
+    var m = String(str).match(/-?[\d.]+/);
+    return m ? parseFloat(m[0]) : null;
+  }
+
+  // LHM reports decimal GB (1000^3 bytes), Windows Explorer shows binary GiB
+  // (1024^3 bytes) but labels it "GB" — convert so the numbers match what's
+  // seen in File Explorer / This PC.
+  function gbToWinGb(numGb){
+    if(numGb === null) return null;
+    return numGb / 1.073741824;
+  }
+
+  function flattenBySensorId(node, map){
+    if(node.SensorId){ map[node.SensorId] = node; }
+    if(node.Children && node.Children.length){
+      for(var i=0;i<node.Children.length;i++){ flattenBySensorId(node.Children[i], map); }
+    }
+    return map;
+  }
+
+  function collectNics(node, list){
+    if(node.HardwareId && node.HardwareId.indexOf("/nic/") === 0){
+      list.push({ id: node.HardwareId, name: node.Text });
+    }
+    if(node.Children && node.Children.length){
+      for(var i=0;i<node.Children.length;i++){ collectNics(node.Children[i], list); }
+    }
+    return list;
+  }
+
+  function fmtSpeed(kbps){
+    // kbps here is in Kbps (kilobits/sec, decimal) already
+    if(kbps === null) return "--";
+    if(kbps >= 1000){ return (kbps/1000).toFixed(1) + " Mbps"; }
+    return kbps.toFixed(0) + " Kbps";
+  }
+
+  function setGauge(fillEl, valEl, value, min, max, warnAt, critAt, unit){
+    var r = 32;
+    var circumference = 2 * Math.PI * r;
+    fillEl.setAttribute("stroke-dasharray", circumference.toFixed(2));
+    if(value === null){
+      fillEl.setAttribute("stroke-dashoffset", circumference.toFixed(2));
+      valEl.textContent = "--" + (unit||"");
+      fillEl.className.baseVal = "gauge-fill";
+      return;
+    }
+    var pct = Math.max(0, Math.min(1, (value - min) / (max - min)));
+    var offset = circumference * (1 - pct);
+    fillEl.setAttribute("stroke-dashoffset", offset.toFixed(2));
+    valEl.textContent = Math.round(value) + (unit||"");
+    var cls = "gauge-fill";
+    if(critAt !== null && value >= critAt){ cls += " crit"; }
+    else if(warnAt !== null && value >= warnAt){ cls += " warn"; }
+    fillEl.className.baseVal = cls;
+  }
+
+  function setBar(barEl, pct, warnAt, critAt){
+    var p = pct === null ? 0 : Math.max(0, Math.min(100, pct));
+    barEl.style.width = p + "%";
+    var cls = "bar-fill";
+    if(pct !== null && critAt !== null && pct >= critAt){ cls += " crit"; }
+    else if(pct !== null && warnAt !== null && pct >= warnAt){ cls += " warn"; }
+    barEl.className = cls;
+  }
+
+  function setStatus(dotEl, textEl, level){
+    // level: "ok" | "warn" | "crit" | "off"
+    dotEl.className = "status-dot " + (level === "ok" ? "ok" : level);
+    var labels = { ok:"Optimal", warn:"Warning", crit:"Critical", off:"Offline" };
+    textEl.textContent = labels[level] || "—";
+  }
+
+  function statusFromValue(value, warnAt, critAt){
+    if(value === null) return "off";
+    if(critAt !== null && value >= critAt) return "crit";
+    if(warnAt !== null && value >= warnAt) return "warn";
+    return "ok";
+  }
+
+  // ---------- render ----------
+  function render(root){
+    var map = flattenBySensorId(root, {});
+    lastMap = map;
+
+    // CPU
+    var cpuNode = null;
+    (function findCpuName(n){
+      if(n.HardwareId && n.HardwareId.indexOf("/amdcpu/") === 0){ cpuNode = n; return true; }
+      if(n.Children){ for(var i=0;i<n.Children.length;i++){ if(findCpuName(n.Children[i])) return true; } }
+      return false;
+    })(root);
+    $("cpuModel").textContent = cpuNode ? cpuNode.Text : "—";
+    var cpuTemp = map[PATHS.cpuTemp] ? parseNum(map[PATHS.cpuTemp].Value) : null;
+    var cpuLoad = map[PATHS.cpuLoad] ? parseNum(map[PATHS.cpuLoad].Value) : null;
+    setGauge($("cpuGaugeFill"), $("cpuTempVal"), cpuTemp, 20, 100, 75, 90, "\u00B0");
+    setBar($("cpuUtilBar"), cpuLoad, 80, 95);
+    $("cpuUtilVal").textContent = cpuLoad === null ? "--%" : Math.round(cpuLoad) + "%";
+    setStatus($("cpuDot"), $("cpuStatus"), statusFromValue(cpuTemp, 75, 90));
+
+    // RAM
+    var ramLoad = map[PATHS.ramLoad] ? parseNum(map[PATHS.ramLoad].Value) : null;
+    var ramUsed = map[PATHS.ramUsed] ? parseNum(map[PATHS.ramUsed].Value) : null;
+    var ramAvail = map[PATHS.ramAvail] ? parseNum(map[PATHS.ramAvail].Value) : null;
+    var ramTotal = (ramUsed !== null && ramAvail !== null) ? (ramUsed + ramAvail) : null;
+    $("ramModel").textContent = (ramUsed !== null && ramTotal !== null) ? (ramUsed.toFixed(1) + " / " + ramTotal.toFixed(1) + " GB used") : "—";
+    setBar($("ramUtilBar"), ramLoad, 85, 95);
+    $("ramUtilVal").textContent = ramLoad === null ? "--%" : Math.round(ramLoad) + "%";
+    setStatus($("ramDot"), $("ramStatus"), statusFromValue(ramLoad, 85, 95));
+
+    // Storage
+    var d0Used = map[PATHS.drive0Used] ? parseNum(map[PATHS.drive0Used].Value) : null;
+    var d1Used = map[PATHS.drive1Used] ? parseNum(map[PATHS.drive1Used].Value) : null;
+    var d0Free = map[PATHS.drive0Free] ? parseNum(map[PATHS.drive0Free].Value) : null;
+    var d0Total = map[PATHS.drive0Total] ? parseNum(map[PATHS.drive0Total].Value) : null;
+    var d1Free = map[PATHS.drive1Free] ? parseNum(map[PATHS.drive1Free].Value) : null;
+    var d1Total = map[PATHS.drive1Total] ? parseNum(map[PATHS.drive1Total].Value) : null;
+    var d0FreeW = gbToWinGb(d0Free);
+    var d0TotalW = gbToWinGb(d0Total);
+    var d1FreeW = gbToWinGb(d1Free);
+    var d1TotalW = gbToWinGb(d1Total);
+    var d0Name = "Games", d1Name = "Windows";
+    $("storageModel").textContent = "2 drives";
+    $("drive0Name").textContent = d0Name;
+    $("drive1Name").textContent = d1Name;
+    $("drive0Pct").textContent = (d0FreeW !== null && d0TotalW !== null) ? (d0FreeW.toFixed(0) + "GB/" + d0TotalW.toFixed(0) + "GB") : "—";
+    $("drive1Pct").textContent = (d1FreeW !== null && d1TotalW !== null) ? (d1FreeW.toFixed(0) + "GB/" + d1TotalW.toFixed(0) + "GB") : "—";
+    setBar($("drive0Bar"), d0Used, 85, 95);
+    setBar($("drive1Bar"), d1Used, 85, 95);
+    var storageWorst = Math.max(d0Used || 0, d1Used || 0);
+    setStatus($("storageDot"), $("storageStatus"), statusFromValue((d0Used===null&&d1Used===null)?null:storageWorst, 85, 95));
+
+    // GPU
+    var gpuNode = null;
+    (function findGpuName(n){
+      if(n.HardwareId && n.HardwareId.indexOf("/gpu") === 0){ gpuNode = n; return true; }
+      if(n.Children){ for(var i=0;i<n.Children.length;i++){ if(findGpuName(n.Children[i])) return true; } }
+      return false;
+    })(root);
+    $("gpuModel").textContent = gpuNode ? gpuNode.Text : "—";
+    var gpuTemp = map[PATHS.gpuTemp] ? parseNum(map[PATHS.gpuTemp].Value) : null;
+    var gpuLoad = map[PATHS.gpuLoad] ? parseNum(map[PATHS.gpuLoad].Value) : null;
+    setGauge($("gpuGaugeFill"), $("gpuTempVal"), gpuTemp, 20, 100, 80, 90, "\u00B0");
+    setBar($("gpuUtilBar"), gpuLoad, 90, 98);
+    $("gpuUtilVal").textContent = gpuLoad === null ? "--%" : Math.round(gpuLoad) + "%";
+    setStatus($("gpuDot"), $("gpuStatus"), statusFromValue(gpuTemp, 80, 90));
+
+    // Network — auto-pick the active adapter
+    var nics = collectNics(root, []);
+    var best = null, bestScore = -1;
+    for(var i=0;i<nics.length;i++){
+      var upN = map[nics[i].id + "/throughput/7"];
+      var dnN = map[nics[i].id + "/throughput/8"];
+      var up = upN ? parseNum(upN.RawValue !== undefined ? upN.RawValue : upN.Value) : 0;
+      var dn = dnN ? parseNum(dnN.RawValue !== undefined ? dnN.RawValue : dnN.Value) : 0;
+      var score = (up||0) + (dn||0);
+      if(lastNetKey === nics[i].id && best === null){ best = nics[i]; bestScore = score; }
+      if(score > bestScore){ best = nics[i]; bestScore = score; }
+    }
+    if(best){
+      lastNetKey = best.id;
+      lastNetName = best.name;
+      var upSensor = map[best.id + "/throughput/7"];
+      var dnSensor = map[best.id + "/throughput/8"];
+      var upKb = upSensor ? (parseNum(upSensor.RawValue) * 8 / 1000) : null;
+      var dnKb = dnSensor ? (parseNum(dnSensor.RawValue) * 8 / 1000) : null;
+      $("netModel").textContent = best.name;
+      $("netUp").textContent = fmtSpeed(upKb);
+      $("netDown").textContent = fmtSpeed(dnKb);
+      setStatus($("netDot"), $("netStatus"), "ok");
+      $("netStatus").textContent = "Connected";
+      netHistory.push({ up: upKb || 0, down: dnKb || 0 });
+      if(netHistory.length > 40){ netHistory.shift(); }
+      drawNetChart();
+    } else {
+      $("netModel").textContent = "No adapter detected";
+      $("netUp").textContent = "--";
+      $("netDown").textContent = "--";
+      setStatus($("netDot"), $("netStatus"), "off");
+    }
+  }
+
+  function drawNetChart(){
+    var svg = $("netChartSvg");
+    var w = 300, h = 64;
+    var maxVal = 1;
+    for(var i=0;i<netHistory.length;i++){
+      if(netHistory[i].down > maxVal) maxVal = netHistory[i].down;
+    }
+    var n = netHistory.length;
+    var pts = [];
+    for(var j=0;j<n;j++){
+      var x = n <= 1 ? w : (j/(n-1))*w;
+      var y = h - (netHistory[j].down / maxVal) * (h-6) - 2;
+      pts.push(x.toFixed(1) + "," + y.toFixed(1));
+    }
+    var line = pts.join(" ");
+    var areaPts = n ? (pts.join(" ") + " " + w + "," + h + " 0," + h) : "";
+    svg.innerHTML =
+      '<defs><linearGradient id="netGrad" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="#b46dff" stop-opacity="0.35"/>' +
+      '<stop offset="100%" stop-color="#b46dff" stop-opacity="0"/></linearGradient></defs>' +
+      (n ? '<polygon points="'+areaPts+'" fill="url(#netGrad)"/>' : '') +
+      (n ? '<polyline points="'+line+'" fill="none" stroke="#c084fc" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>' : '');
+  }
+
+  // ---------- fetch loop ----------
+  function buildUrl(){
+    var host = config.host.trim();
+    if(!host) return null;
+    if(host.indexOf("http://") !== 0 && host.indexOf("https://") !== 0){
+      host = "http://" + host;
+    }
+    host = host.replace(/\/+$/,"");
+    return host + "/data.json";
+  }
+
+  function setConn(ok){
+    var el = $("connIndicator");
+    el.className = "conn " + (ok ? "ok" : "bad");
+    $("connLabel").textContent = ok ? "Live" : "Offline";
+  }
+
+  function poll(){
+    var url = buildUrl();
+    if(!url){ setConn(false); $("connLabel").textContent = "Not set up"; return; }
+    fetch(url, { cache: "no-store" })
+      .then(function(res){
+        if(!res.ok){ throw new Error("HTTP " + res.status); }
+        return res.json();
+      })
+      .then(function(data){
+        setConn(true);
+        render(data);
+      })
+      .catch(function(err){
+        setConn(false);
+      });
+  }
+
+  function startPolling(){
+    if(pollTimer){ clearInterval(pollTimer); }
+    poll();
+    pollTimer = setInterval(poll, config.rate);
+  }
+
+  // ---------- settings UI ----------
+  function refreshHostSub(){
+    $("hostSub").textContent = config.host ? config.host : "Tap the gear to set up";
+  }
+
+  function openModal(){
+    $("hostInput").value = config.host;
+    var btns = document.querySelectorAll(".rate-btn");
+    for(var i=0;i<btns.length;i++){
+      btns[i].className = "rate-btn" + (parseInt(btns[i].getAttribute("data-rate"),10) === config.rate ? " active" : "");
+    }
+    $("modalErr").textContent = "";
+    $("modalBg").className = "modal-bg show";
+  }
+  function closeModal(){ $("modalBg").className = "modal-bg"; }
+
+  $("openSettings").addEventListener("click", openModal);
+  $("cancelSettings").addEventListener("click", closeModal);
+  $("modalBg").addEventListener("click", function(e){ if(e.target === $("modalBg")) closeModal(); });
+
+  // ---------- detail modal ----------
+  function buildDetail(key){
+    if(!lastMap){
+      return { title:"—", body: detailRow("Status", "Waiting for data…") };
+    }
+    var map = lastMap, rows = "", title = "";
+
+    if(key === "cpu"){
+      title = "Processor";
+      rows += detailRow("Core Temp (Tctl/Tdie)", valOf(map, PATHS.cpuTemp));
+      rows += detailRow("CCD1 Temp", valOf(map, "/amdcpu/0/temperature/3"));
+      rows += detailRow("CPU Total Load", valOf(map, PATHS.cpuLoad));
+      rows += detailRow("Max Core Load", valOf(map, "/amdcpu/0/load/1"));
+      rows += detailRow("Package Power", valOf(map, "/amdcpu/0/power/0"));
+      rows += detailRow("Core Clock (Avg)", valOf(map, "/amdcpu/0/clock/1"));
+      rows += detailRow("Vcore", valOf(map, "/lpc/nct6687d/0/voltage/2"));
+      rows += detailRow("CPU Socket Temp", valOf(map, "/lpc/nct6687d/0/temperature/4"));
+      rows += detailRow("VRM MOS Temp", valOf(map, "/lpc/nct6687d/0/temperature/2"));
+      rows += detailRow("System Temp", valOf(map, "/lpc/nct6687d/0/temperature/1"));
+      rows += detailRow("CPU Fan", valOf(map, "/lpc/nct6687d/0/fan/0"));
+    } else if(key === "ram"){
+      title = "RAM";
+      rows += detailRow("Used", valOf(map, PATHS.ramUsed));
+      rows += detailRow("Available", valOf(map, PATHS.ramAvail));
+      rows += detailRow("Load", valOf(map, PATHS.ramLoad));
+      rows += detailSub("Kingston DIMM #1");
+      rows += detailRow("Capacity", valOf(map, "/memory/dimm/1/data/50"));
+      rows += detailRow("Temperature", valOf(map, "/memory/dimm/1/temperature/0"));
+      rows += detailSub("Kingston DIMM #2");
+      rows += detailRow("Capacity", valOf(map, "/memory/dimm/3/data/50"));
+      rows += detailRow("Temperature", valOf(map, "/memory/dimm/3/temperature/0"));
+      rows += detailSub("Virtual Memory");
+      rows += detailRow("Load", valOf(map, "/vram/load/1"));
+      rows += detailRow("Used", valOf(map, "/vram/data/2"));
+      rows += detailRow("Available", valOf(map, "/vram/data/3"));
+    } else if(key === "storage"){
+      title = "Storage";
+      var dd0Free = gbToWinGb(parseNum(valOf(map, PATHS.drive0Free)));
+      var dd0Total = gbToWinGb(parseNum(valOf(map, PATHS.drive0Total)));
+      var dd1Free = gbToWinGb(parseNum(valOf(map, PATHS.drive1Free)));
+      var dd1Total = gbToWinGb(parseNum(valOf(map, PATHS.drive1Total)));
+      rows += detailSub("Games");
+      rows += detailRow("Free Space", dd0Free !== null ? dd0Free.toFixed(1) + " GB" : "—");
+      rows += detailRow("Total Space", dd0Total !== null ? dd0Total.toFixed(1) + " GB" : "—");
+      rows += detailRow("Temperature", valOf(map, PATHS.drive0Temp));
+      rows += detailRow("Read Rate", valOf(map, "/nvme/0/throughput/54"));
+      rows += detailRow("Write Rate", valOf(map, "/nvme/0/throughput/55"));
+      rows += detailRow("Drive Life Remaining", valOf(map, "/nvme/0/level/20"));
+      rows += detailRow("Power-On Hours", valOf(map, "/nvme/0/factor/24"));
+      rows += detailSub("Windows");
+      rows += detailRow("Free Space", dd1Free !== null ? dd1Free.toFixed(1) + " GB" : "—");
+      rows += detailRow("Total Space", dd1Total !== null ? dd1Total.toFixed(1) + " GB" : "—");
+      rows += detailRow("Temperature", valOf(map, PATHS.drive1Temp));
+      rows += detailRow("Read Rate", valOf(map, "/nvme/1/throughput/54"));
+      rows += detailRow("Write Rate", valOf(map, "/nvme/1/throughput/55"));
+      rows += detailRow("Drive Life Remaining", valOf(map, "/nvme/1/level/20"));
+      rows += detailRow("Power-On Hours", valOf(map, "/nvme/1/factor/24"));
+    } else if(key === "gpu"){
+      title = "Graphics Card";
+      rows += detailRow("Core Temp", valOf(map, PATHS.gpuTemp));
+      rows += detailRow("Hot Spot Temp", valOf(map, "/gpu-amd/0/temperature/7"));
+      rows += detailRow("Memory Temp", valOf(map, "/gpu-amd/0/temperature/1"));
+      rows += detailRow("Core Load", valOf(map, PATHS.gpuLoad));
+      rows += detailRow("Memory Load", valOf(map, "/gpu-amd/0/load/1"));
+      rows += detailRow("Package Power", valOf(map, "/gpu-amd/0/power/3"));
+      rows += detailRow("Core Clock", valOf(map, "/gpu-amd/0/clock/0"));
+      rows += detailRow("Memory Clock", valOf(map, "/gpu-amd/0/clock/2"));
+      rows += detailRow("VRAM Used", valOf(map, "/gpu-amd/0/smalldata/0"));
+      rows += detailRow("VRAM Total", valOf(map, "/gpu-amd/0/smalldata/2"));
+      rows += detailRow("Fan Speed", valOf(map, "/gpu-amd/0/fan/0"));
+    } else if(key === "net"){
+      title = "Network";
+      if(lastNetKey){
+        var upRaw = map[lastNetKey + "/throughput/7"];
+        var dnRaw = map[lastNetKey + "/throughput/8"];
+        var upKbps = upRaw ? (parseNum(upRaw.RawValue) * 8 / 1000) : null;
+        var dnKbps = dnRaw ? (parseNum(dnRaw.RawValue) * 8 / 1000) : null;
+        rows += detailRow("Adapter", lastNetName || "—");
+        rows += detailRow("Utilization", valOf(map, lastNetKey + "/load/1"));
+        rows += detailRow("Upload Speed", fmtSpeed(upKbps));
+        rows += detailRow("Download Speed", fmtSpeed(dnKbps));
+        rows += detailRow("Uploaded (session)", valOf(map, lastNetKey + "/data/2"));
+        rows += detailRow("Downloaded (session)", valOf(map, lastNetKey + "/data/3"));
+      } else {
+        rows += detailRow("Adapter", "No active adapter detected");
+      }
+    }
+    return { title:title, body:rows };
+  }
+
+  function openDetail(key){
+    var d = buildDetail(key);
+    $("detailTitle").textContent = d.title;
+    $("detailBody").innerHTML = d.body;
+    $("detailBg").className = "modal-bg show";
+  }
+  function closeDetail(){ $("detailBg").className = "modal-bg"; }
+
+  $("cpuCard").addEventListener("click", function(){ openDetail("cpu"); });
+  $("ramCard").addEventListener("click", function(){ openDetail("ram"); });
+  $("storageCard").addEventListener("click", function(){ openDetail("storage"); });
+  $("gpuCard").addEventListener("click", function(){ openDetail("gpu"); });
+  $("netCard").addEventListener("click", function(){ openDetail("net"); });
+  $("closeDetail").addEventListener("click", closeDetail);
+  $("detailBg").addEventListener("click", function(e){ if(e.target === $("detailBg")) closeDetail(); });
+
+  var rateButtons = document.querySelectorAll(".rate-btn");
+  for(var ri=0; ri<rateButtons.length; ri++){
+    rateButtons[ri].addEventListener("click", function(){
+      var btns = document.querySelectorAll(".rate-btn");
+      for(var k=0;k<btns.length;k++){ btns[k].className = "rate-btn"; }
+      this.className = "rate-btn active";
+      config.rate = parseInt(this.getAttribute("data-rate"), 10);
+    });
+  }
+
+  $("saveSettings").addEventListener("click", function(){
+    var host = $("hostInput").value.trim();
+    if(!host){ $("modalErr").textContent = "Enter the server address, e.g. 192.168.1.50:8085"; return; }
+    config.host = host;
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+    refreshHostSub();
+    closeModal();
+    startPolling();
+  });
+
+  // ---------- init ----------
+  startClock();
+  refreshHostSub();
+  if(config.host){ startPolling(); }
+  else { openModal(); }
+
+})();
+</script>
+</body>
+</html>
