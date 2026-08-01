@@ -106,6 +106,7 @@
   .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
   .card-title{ font-size:21px; font-weight:600; }
   .card-model{ font-size:14px; color:var(--text-faint); margin-top:5px; line-height:1.35; max-width:190px; }
+  .card-sub{ font-size:13px; color:var(--text-faint); margin-top:5px; line-height:1.35; max-width:190px; }
   .status-row{ display:flex; align-items:center; gap:8px; margin-top:16px; }
   .status-dot{ width:10px; height:10px; border-radius:50%; background:var(--green); }
   .status-dot.warn{ background:var(--amber); box-shadow:0 0 8px var(--amber); }
@@ -236,6 +237,7 @@
         <div>
           <div class="card-title">Processor</div>
           <div class="card-model" id="cpuModel">—</div>
+          <div class="card-sub" id="cpuClockInfo"></div>
         </div>
         <div class="gauge-wrap">
           <svg viewBox="0 0 76 76">
@@ -265,6 +267,7 @@
         <div>
           <div class="card-title">RAM</div>
           <div class="card-model" id="ramModel">—</div>
+          <div class="card-sub" id="ramSpecInfo"></div>
         </div>
       </div>
       <div>
@@ -303,6 +306,7 @@
         <div>
           <div class="card-title">Graphics Card</div>
           <div class="card-model" id="gpuModel">—</div>
+          <div class="card-sub" id="gpuVramInfo"></div>
         </div>
         <div class="gauge-wrap">
           <svg viewBox="0 0 76 76">
@@ -429,7 +433,12 @@
     drive1Used: "/nvme/1/load/30",
     drive1Temp: "/nvme/1/temperature/0",
     drive1Free: "/nvme/1/data/31",
-    drive1Total: "/nvme/1/data/32"
+    drive1Total: "/nvme/1/data/32",
+    cpuClockAvg: "/amdcpu/0/clock/1",       // Cores (Average)
+    ramDimm1Company: "/memory/dimm/1",
+    ramDimm1CkMin: "/memory/dimm/1/timing/20", // tCKAVGmin
+    gpuVramUsed: "/gpu-amd/0/smalldata/0",
+    gpuVramTotal: "/gpu-amd/0/smalldata/2"
   };
 
   // ---------- helpers ----------
@@ -467,6 +476,17 @@
       for(var i=0;i<node.Children.length;i++){ flattenBySensorId(node.Children[i], map); }
     }
     return map;
+  }
+
+  function findHardwareText(node, hwIdPrefix){
+    if(node.HardwareId && node.HardwareId.indexOf(hwIdPrefix) === 0){ return node.Text; }
+    if(node.Children && node.Children.length){
+      for(var i=0;i<node.Children.length;i++){
+        var r = findHardwareText(node.Children[i], hwIdPrefix);
+        if(r) return r;
+      }
+    }
+    return null;
   }
 
   function collectNics(node, list){
@@ -548,6 +568,8 @@
     setBar($("cpuUtilBar"), cpuLoad, 80, 95);
     $("cpuUtilVal").textContent = cpuLoad === null ? "--%" : Math.round(cpuLoad) + "%";
     setStatus($("cpuDot"), $("cpuStatus"), statusFromValue(cpuTemp, 75, 90));
+    var cpuClock = map[PATHS.cpuClockAvg] ? parseNum(map[PATHS.cpuClockAvg].Value) : null;
+    $("cpuClockInfo").textContent = cpuClock !== null ? ((cpuClock/1000).toFixed(2) + " GHz avg") : "";
 
     // RAM
     var ramLoad = map[PATHS.ramLoad] ? parseNum(map[PATHS.ramLoad].Value) : null;
@@ -558,6 +580,15 @@
     setBar($("ramUtilBar"), ramLoad, 85, 95);
     $("ramUtilVal").textContent = ramLoad === null ? "--%" : Math.round(ramLoad) + "%";
     setStatus($("ramDot"), $("ramStatus"), statusFromValue(ramLoad, 85, 95));
+    var dimmText = findHardwareText(root, "/memory/dimm/1"); // e.g. "Kingston - KF556C36-8 (#1)"
+    var ramCompany = dimmText ? dimmText.split(" - ")[0] : null;
+    var ckMin = map[PATHS.ramDimm1CkMin] ? parseNum(map[PATHS.ramDimm1CkMin].Value) : null;
+    var ramSpeedMts = ckMin ? Math.round((2000 / ckMin) / 100) * 100 : null;
+    var ramSpecParts = [];
+    if(ramCompany) ramSpecParts.push(ramCompany + " FURY Beast");
+    ramSpecParts.push("DDR5");
+    if(ramSpeedMts) ramSpecParts.push(ramSpeedMts + " MT/s");
+    $("ramSpecInfo").textContent = ramSpecParts.join(" \u00B7 ");
 
     // Storage
     var d0Used = map[PATHS.drive0Used] ? parseNum(map[PATHS.drive0Used].Value) : null;
@@ -589,6 +620,11 @@
       return false;
     })(root);
     $("gpuModel").textContent = gpuNode ? gpuNode.Text : "—";
+    var vramUsedMb = map[PATHS.gpuVramUsed] ? parseNum(map[PATHS.gpuVramUsed].Value) : null;
+    var vramTotalMb = map[PATHS.gpuVramTotal] ? parseNum(map[PATHS.gpuVramTotal].Value) : null;
+    $("gpuVramInfo").textContent = (vramUsedMb !== null && vramTotalMb !== null)
+      ? ((vramUsedMb/1024).toFixed(1) + "GB/" + (vramTotalMb/1024).toFixed(1) + "GB VRAM")
+      : "";
     var gpuTemp = map[PATHS.gpuTemp] ? parseNum(map[PATHS.gpuTemp].Value) : null;
     var gpuLoad = map[PATHS.gpuLoad] ? parseNum(map[PATHS.gpuLoad].Value) : null;
     setGauge($("gpuGaugeFill"), $("gpuTempVal"), gpuTemp, 20, 100, 80, 90, "\u00B0");
