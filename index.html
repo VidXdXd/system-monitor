@@ -46,8 +46,10 @@
   }
   .topbar h1{ font-size:28px; font-weight:600; margin:0; letter-spacing:-0.3px; }
   .topbar .sub{ font-size:15px; color:var(--text-faint); margin-top:4px; }
-  .top-right{ display:flex; align-items:center; gap:16px; }
-  .conn{ display:flex; align-items:center; gap:7px; font-size:14px; color:var(--text-dim); }
+  .top-right{ display:flex; align-items:center; }
+  .top-right > * + *{ margin-left:16px; }
+  .conn{ display:flex; align-items:center; font-size:14px; color:var(--text-dim); }
+  .conn > * + *{ margin-left:7px; }
   .conn .dot{ width:9px; height:9px; border-radius:50%; background:var(--text-faint); }
   .conn.ok .dot{ background:var(--green); box-shadow:0 0 8px var(--green); }
   .conn.bad .dot{ background:var(--red); box-shadow:0 0 8px var(--red); }
@@ -62,9 +64,9 @@
   .gear{
     width:46px; height:46px; border-radius:13px; background:var(--card);
     border:1px solid var(--card-border); display:flex; align-items:center; justify-content:center;
-    color:var(--text-dim);
+    color:var(--text-dim); cursor:pointer;
   }
-  .gear svg{ width:22px; height:22px; }
+  .gear svg{ width:22px; height:22px; pointer-events:none; }
 
   .grid{
     display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
@@ -103,11 +105,13 @@
   .detail-sub:first-child{ margin-top:0; }
   .detail-body{ max-height:52vh; overflow-y:auto; }
 
-  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .card-top > * + *{ margin-left:10px; }
   .card-title{ font-size:21px; font-weight:600; }
   .card-model{ font-size:14px; color:var(--text-faint); margin-top:5px; line-height:1.35; max-width:190px; }
   .card-sub{ font-size:13px; color:var(--text-faint); margin-top:5px; line-height:1.35; max-width:190px; }
-  .status-row{ display:flex; align-items:center; gap:8px; margin-top:16px; }
+  .status-row{ display:flex; align-items:center; margin-top:16px; }
+  .status-row > * + *{ margin-left:8px; }
   .status-dot{ width:10px; height:10px; border-radius:50%; background:var(--green); }
   .status-dot.warn{ background:var(--amber); box-shadow:0 0 8px var(--amber); }
   .status-dot.crit{ background:var(--red); box-shadow:0 0 8px var(--red); }
@@ -143,10 +147,12 @@
 
   /* Network card */
   .net-top{ display:flex; justify-content:space-between; align-items:flex-start; }
-  .net-speeds{ display:flex; gap:22px; }
+  .net-speeds{ display:flex; }
+  .net-speeds > * + *{ margin-left:22px; }
   .net-speed{ text-align:right; }
   .net-speed .val{ font-size:20px; font-weight:700; }
-  .net-speed .lbl{ font-size:12px; color:var(--text-faint); display:flex; align-items:center; gap:4px; justify-content:flex-end; margin-top:2px; }
+  .net-speed .lbl{ font-size:12px; color:var(--text-faint); display:flex; align-items:center; justify-content:flex-end; margin-top:2px; }
+  .net-speed .lbl > * + *{ margin-left:4px; }
   .net-chart{ margin-top:18px; height:120px; }
   .net-chart svg{ width:100%; height:100%; display:block; }
 
@@ -170,16 +176,18 @@
     padding:16px 16px; border-radius:12px; font-size:18px;
   }
   .field .hint{ font-size:13px; color:var(--text-faint); margin-top:9px; line-height:1.5; }
-  .rate-row{ display:flex; gap:12px; }
+  .rate-row{ display:flex; }
+  .rate-row > * + *{ margin-left:12px; }
   .rate-btn{
     flex:1; padding:16px 0; text-align:center; border-radius:12px; border:1px solid var(--card-border);
-    color:var(--text-dim); font-size:16px; background:#0d0f14;
+    color:var(--text-dim); font-size:16px; background:#0d0f14; cursor:pointer;
   }
   .rate-btn.active{ background:var(--blue); color:#fff; border-color:var(--blue); }
-  .modal-actions{ display:flex; gap:14px; margin-top:28px; }
+  .modal-actions{ display:flex; margin-top:28px; }
+  .modal-actions > * + *{ margin-left:14px; }
   .btn{
     flex:1; padding:17px 0; border-radius:13px; text-align:center; font-size:17px; font-weight:600;
-    border:1px solid var(--card-border); color:var(--text-dim);
+    border:1px solid var(--card-border); color:var(--text-dim); cursor:pointer;
   }
   .btn.primary{ background:var(--blue); color:#fff; border-color:var(--blue); }
   .err-msg{ font-size:13px; color:var(--red); margin-top:10px; min-height:16px; }
@@ -387,8 +395,50 @@
 </div>
 
 <script>
+  // Visible error catcher — if anything on this page throws a JS error,
+  // show it on screen instead of failing silently. This lets us diagnose
+  // issues on devices (like older iPads) where there's no way to see the
+  // browser console.
+  window.onerror = function(msg, src, line, col, err){
+    try{
+      var el = document.getElementById("errBanner");
+      if(!el){
+        el = document.createElement("div");
+        el.id = "errBanner";
+        el.style.cssText = "position:fixed;top:0;left:0;right:0;background:#ef4444;color:#fff;"
+          + "font:12px -apple-system,monospace;padding:10px 14px;z-index:99999;"
+          + "white-space:pre-wrap;word-break:break-word;";
+        document.body.insertBefore(el, document.body.firstChild);
+      }
+      el.textContent = "Dashboard error: " + msg + " (line " + line + ")";
+    }catch(e){}
+    return false;
+  };
+</script>
+<script>
 (function(){
   "use strict";
+
+  // Old iOS Safari (12.x and earlier) sometimes fails to fire click events on
+  // plain <div>-based buttons unless a touch listener exists somewhere on the
+  // page. This is a harmless no-op that fixes tap responsiveness system-wide.
+  document.addEventListener("touchstart", function(){}, false);
+
+  // Belt-and-suspenders: bind a handler via both "click" and "touchend" so
+  // taps register even if one event type misbehaves on a given device.
+  function onTap(el, handler){
+    if(!el) return;
+    var firedAt = 0;
+    function fire(e){
+      var now = Date.now();
+      if(now - firedAt < 400) return; // avoid double-fire from click+touchend
+      firedAt = now;
+      if(e && e.preventDefault) e.preventDefault();
+      handler(e);
+    }
+    el.addEventListener("click", fire, false);
+    el.addEventListener("touchend", fire, false);
+  }
 
   var CONFIG_KEY = "lhm_dashboard_config_v1";
   var config = { host:"", rate:2000 };
@@ -747,9 +797,9 @@
   }
   function closeModal(){ $("modalBg").className = "modal-bg"; }
 
-  $("openSettings").addEventListener("click", openModal);
-  $("cancelSettings").addEventListener("click", closeModal);
-  $("modalBg").addEventListener("click", function(e){ if(e.target === $("modalBg")) closeModal(); });
+  onTap($("openSettings"), openModal);
+  onTap($("cancelSettings"), closeModal);
+  onTap($("modalBg"), function(e){ if(e.target === $("modalBg")) closeModal(); });
 
   // ---------- detail modal ----------
   function buildDetail(key){
@@ -849,17 +899,17 @@
   }
   function closeDetail(){ $("detailBg").className = "modal-bg"; }
 
-  $("cpuCard").addEventListener("click", function(){ openDetail("cpu"); });
-  $("ramCard").addEventListener("click", function(){ openDetail("ram"); });
-  $("storageCard").addEventListener("click", function(){ openDetail("storage"); });
-  $("gpuCard").addEventListener("click", function(){ openDetail("gpu"); });
-  $("netCard").addEventListener("click", function(){ openDetail("net"); });
-  $("closeDetail").addEventListener("click", closeDetail);
-  $("detailBg").addEventListener("click", function(e){ if(e.target === $("detailBg")) closeDetail(); });
+  onTap($("cpuCard"), function(){ openDetail("cpu"); });
+  onTap($("ramCard"), function(){ openDetail("ram"); });
+  onTap($("storageCard"), function(){ openDetail("storage"); });
+  onTap($("gpuCard"), function(){ openDetail("gpu"); });
+  onTap($("netCard"), function(){ openDetail("net"); });
+  onTap($("closeDetail"), closeDetail);
+  onTap($("detailBg"), function(e){ if(e.target === $("detailBg")) closeDetail(); });
 
   var rateButtons = document.querySelectorAll(".rate-btn");
   for(var ri=0; ri<rateButtons.length; ri++){
-    rateButtons[ri].addEventListener("click", function(){
+    onTap(rateButtons[ri], function(){
       var btns = document.querySelectorAll(".rate-btn");
       for(var k=0;k<btns.length;k++){ btns[k].className = "rate-btn"; }
       this.className = "rate-btn active";
@@ -867,7 +917,7 @@
     });
   }
 
-  $("saveSettings").addEventListener("click", function(){
+  onTap($("saveSettings"), function(){
     var host = $("hostInput").value.trim();
     if(!host){ $("modalErr").textContent = "Enter the server address, e.g. 192.168.1.50:8085"; return; }
     config.host = host;
